@@ -7,9 +7,11 @@ import java.util.Scanner;
  * @author manum
  */
 public class Proyecto1 { 
-    public static void main(String[] args) {        
-        //tablero y posicion de palabras
-        char[][] tablero =new char[25][25];
+    public static void main(String[] args) {   
+        //generamos el tablero de juego
+        Tablero tablero = new Tablero();
+        
+        
         int [] posicionHorizontal;
         int [] posicionVertical;
         int longitud=0;
@@ -49,6 +51,7 @@ public class Proyecto1 {
             System.out.println("1. Menu de palabras");
             System.out.println("2. Jugar");
             System.out.println("3. Terminar");
+            System.out.println("4. imprimir");
             System.out.println("ingrese un valor numerico****");
             
             
@@ -523,6 +526,8 @@ public class Proyecto1 {
                     break;
                 case 3:
                     break;
+                case 4:
+                    System.out.println("hola");
                 default:
                     System.out.println("opcion invalida");
             }
