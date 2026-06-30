@@ -7,65 +7,80 @@ import java.util.Scanner;
  * @author manum
  */
 public class Proyecto1 { 
+    
     public static void main(String[] args) {   
         //generamos el tablero de juego
         Tablero tablero = new Tablero();
         
-        
-        int [] posicionHorizontal;
-        int [] posicionVertical;
-        int longitud=0;
-        int contadorDinamico=0;
-        String [] palabraEncontrada;
-        boolean [] condicion;
-        //arreglos para almacenar las partidas y variables
-        String [] partidas= new String[4];
-        int[] puntosPartidas = new int[4];
-        int[] partidasJugadas= new int[4];
-        int[] erroresPartidas=new int[4];
-        int contadorDinamico2=0;
-        for (int i = 0; i < 4; i++) {
-                partidas[i]="nueva partida";
+        //lista global para guardar las partidas
+        Partidas[] listaPartidas = new Partidas[5];
+        //llenamos la lista
+        for (int i = 0; i < 5; i++) {
+            Partidas n = new Partidas();
+            listaPartidas[i] = n;
         }
-        //variables usadas para poder jugar
-        boolean condicionError;
-        int puntos;
-        int partida=0;
-        int n = 0;
-        int x;
-        int errores=0;
-        int acierto=0;
-        //arreglo para almacenar n palabras
-        String [] palabra = null;
+        Partidas PartidaActual = listaPartidas[0];
+        
+        //lista global para guardar las palabras que se jugaran
+        PalabrasEscondidas[] listaPalabras = new PalabrasEscondidas[1];
+        listaPalabras[0] = null;
+        
+        
         //variables usadas para el ingreso de datos
         int menu1;
         String entrada;
         Scanner scanner = new Scanner(System.in);
         Scanner palabraEntrada = new Scanner(System.in);
         //menu principal        
-        do {
-            
-            
-            
+        do {    
             System.out.println("--------------MENU DE JUEGO--------------");
-            System.out.println("1. Menu de palabras");
+            System.out.println("1. Nueva Partida");
             System.out.println("2. Jugar");
             System.out.println("3. Terminar");
-            System.out.println("4. imprimir");
-            System.out.println("ingrese un valor numerico****");
-            
-            
+            System.out.println("4. Salir");
+            System.out.println("******SE ESTA UTILIZANDO"+PartidaActual.nombre+"******");
             menu1=scanner.nextInt();
-            
-            
-            
             switch (menu1){
-                
-                
                 case 1:
+                    do{
+                        System.out.println("--------------Nueva Partida--------------");
+                        System.out.println("1. Modificar Palabras");
+                        System.out.println("2. Modificar Partida");
+                        System.out.println("3. Regresar");
+                        
+                        menu1 = scanner.nextInt();
+                        
+                        switch(menu1){
+                            case 1:
+                                System.out.println("1. Insertar palabras");
+                                System.out.println("2. Modificar palabras");
+                                System.out.println("3. Eliminar palabras");
+                                System.out.println("4. regresar");
+                                
+                                menu1 = scanner.nextInt();
+                                switch(menu1){
+                                    case 1:
+                                        PartidaActual.IngresarPalabras(PartidaActual, listaPalabras);
+                                        break;
+                                    case 2:
+                                        PartidaActual.ModificarPalabra(listaPalabras);
+                                        break;
+                                }
+                                
+                                menu1 = 0;
+                                break;
+                                
+                            case 2:
+                        
+                                menu1 = 0;
+                                break;
+                        }
+                        
+                        
+                    }while(menu1 != 3);
                     
-                    //Menu nueva partida
-                    while(palabra==null&& menu1!=4){
+                    
+                    while(listaPalabras[0]==null&& menu1!=4){
                             do {
                                 System.out.println("--------------NUEVA PARTIDA--------------");
                                 System.out.println("1. Insertar palabras");
@@ -279,8 +294,6 @@ public class Proyecto1 {
                             }while(menu1!=4);
                     }
                     break;
-                    
-                    
                 //Menu jugar    
                 case 2:
                     do {
