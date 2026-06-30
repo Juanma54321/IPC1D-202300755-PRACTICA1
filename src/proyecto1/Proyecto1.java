@@ -8,6 +8,11 @@ import java.util.Scanner;
  */
 public class Proyecto1 { 
     
+    public static void ClearOutput(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    
     public static void main(String[] args) {   
         //generamos el tablero de juego
         Tablero tablero = new Tablero();
@@ -23,16 +28,16 @@ public class Proyecto1 {
         
         //lista global para guardar las palabras que se jugaran
         PalabrasEscondidas[] listaPalabras = new PalabrasEscondidas[1];
-        listaPalabras[0] = null;
-        
+        listaPalabras[0] = null;        
         
         //variables usadas para el ingreso de datos
         int menu1;
-        String entrada;
         Scanner scanner = new Scanner(System.in);
-        Scanner palabraEntrada = new Scanner(System.in);
+
         //menu principal        
         do {    
+            ClearOutput();
+            
             System.out.println("--------------MENU DE JUEGO--------------");
             System.out.println("1. Nueva Partida");
             System.out.println("2. Jugar");
@@ -43,369 +48,121 @@ public class Proyecto1 {
             switch (menu1){
                 case 1:
                     do{
+                        
+                        ClearOutput();
+                        
                         System.out.println("--------------Nueva Partida--------------");
                         System.out.println("1. Modificar Palabras");
                         System.out.println("2. Modificar Partida");
                         System.out.println("3. Regresar");
                         
+                        
                         menu1 = scanner.nextInt();
                         
                         switch(menu1){
                             case 1:
-                                System.out.println("1. Insertar palabras");
-                                System.out.println("2. Modificar palabras");
-                                System.out.println("3. Eliminar palabras");
-                                System.out.println("4. regresar");
-                                
-                                menu1 = scanner.nextInt();
-                                switch(menu1){
-                                    case 1:
-                                        PartidaActual.IngresarPalabras(PartidaActual, listaPalabras);
-                                        break;
-                                    case 2:
-                                        PartidaActual.ModificarPalabra(listaPalabras);
-                                        break;
-                                }
-                                
+                                do{
+                                    ClearOutput();
+
+                                    System.out.println("--------------Modificar Palabras--------------");
+                                    System.out.println("1. Insertar palabras");
+                                    System.out.println("2. Modificar palabras");
+                                    System.out.println("3. Eliminar palabras");
+                                    System.out.println("4. regresar");
+                                    System.out.println("----------------------------------------------");
+                                    PartidaActual.MostrarPalabras(listaPalabras);
+                                    
+                                    menu1 = scanner.nextInt();
+                                    switch(menu1){
+                                        case 1:
+                                            PartidaActual.IngresarPalabras(PartidaActual, listaPalabras);
+                                            break;
+                                        case 2:
+                                            //si no hay palabras
+                                            if(listaPalabras[0] == null) break;
+                                            PartidaActual.ModificarPalabra(listaPalabras);
+                                            break;
+                                        case 3:
+                                            //si no hay palabras
+                                            if(listaPalabras[0] == null) break;
+                                            listaPalabras = PartidaActual.EliminarPalabra(listaPalabras);
+                                            break;
+                                    }
+                                }while(menu1 != 4);
                                 menu1 = 0;
                                 break;
                                 
                             case 2:
-                        
+                                do {
+                                    
+                                    ClearOutput();
+
+                                    System.out.println("--------------Modificar Partida--------------");
+                                    System.out.println("1. Cambiar Partida");
+                                    System.out.println("2. Renombrar Partida");
+                                    System.out.println("3. Formatear Partida");
+                                    System.out.println("4. Salir");
+                                    
+                                    PartidaActual.MostrarPartidas(listaPartidas);
+                                    
+                                    //obtenemos el valor
+                                    menu1 = scanner.nextInt();
+                                    switch(menu1){
+                                        case 1:
+                                            ClearOutput();
+                                            PartidaActual = PartidaActual.CambiarPartida(listaPartidas);
+                                            break;
+                                        case 2:
+                                            ClearOutput();
+                                            PartidaActual = PartidaActual.RenombrarPartida(listaPartidas);
+                                            break;
+                                        case 3:
+                                            ClearOutput();
+                                            PartidaActual.FormatearPartida(listaPartidas);
+                                            break;
+                                    }
+                                } while (menu1 != 4);
+                                
                                 menu1 = 0;
                                 break;
                         }
-                        
-                        
                     }while(menu1 != 3);
-                    
-                    
-                    while(listaPalabras[0]==null&& menu1!=4){
-                            do {
-                                System.out.println("--------------NUEVA PARTIDA--------------");
-                                System.out.println("1. Insertar palabras");
-                                System.out.println("2. Modificar palabras");
-                                System.out.println("3. Eliminar palabras");
-                                System.out.println("4. regresar");
-                                System.out.println("ingrese un valor numerico****");
-                       
-                                menu1=scanner.nextInt();
-                            
-                                switch (menu1){
-                                    //menu para ingresar palabras
-                                    case 1:
-                                        //creando una partida
-                                        System.out.println("--------Quieres CARGAR o CREAR una partida--------");
-                                        System.out.println("escribelo en MAYUSCULA***");
-                                        entrada= palabraEntrada.nextLine();
-                                        if(entrada.equals("CREAR")){
-                                            System.out.println("que numero de partida quieres borrar?");
-                                            for (int i = 0; i < 4; i++) {
-                                                System.out.println((i+1)+". "+partidas[i]);
-                                            }
-                                            System.out.println("ingrese un valor numerico****");
-                                            contadorDinamico2= scanner.nextInt();
-                                            contadorDinamico2=contadorDinamico2-1;
-                                            System.out.println("Ingresa tu Nombre y tu carné");
-                                            partidas[contadorDinamico2]=palabraEntrada.nextLine();
-                                            puntosPartidas[contadorDinamico2]=0;
-                                            partidasJugadas[contadorDinamico2]=0;
-                                            erroresPartidas[contadorDinamico2]=0;
-                                            System.out.println("cuantas palabras desea ingresar??");
-                                            System.out.println("ingrese un valor numerico****");
-                                            n = scanner.nextInt();
-                                            palabra= new String[n];
-                                        }else if(entrada.equals("CARGAR")){
-                                            System.out.println("no hay partidas creadas");  
-                                        }else{
-                                            System.out.println("opcion no valida");
-                                        }
-                                       
-                                        
-                                        //se registraran las palabras usadas para jugar
-                                        if(n!=0){
-                                        for(int i=0; i<n;i++){
-                                            System.out.println("Porfavor ingrese " +n+" palabras de 6 a 15 caracteres");
-                                            System.out.print(i+1+". ");
-                                            palabra[i]= palabraEntrada.nextLine();
-                                            
-                                            //se confirmara si los palabras ingresadas cumplen con los requisitos
-                                            while (palabra[i].length()<6 || palabra[i].length() >15){
-                                                System.out.println("la palabra #"+(i+1)+" no es valida, ingresa otra ");
-                                                System.out.print((i+1)+". ");
-                                                palabra[i] = palabraEntrada.nextLine();
-                                            }
-                                            
-                                        }}
-                                    break;
-                                    case 2:
-                                        System.out.println("ERROR");
-                                        System.out.println("ERROR");
-                                        System.out.println("Priemro tienes que ingresar las palabras!!");
-                                    break;
-                                    case 3:
-                                        System.out.println("ERROR");
-                                        System.out.println("ERROR");
-                                        System.out.println("Priemro tienes que ingresar las palabras!!");
-                                    break;
-                                    case 4:
-                                    break;
-                                    default: 
-                                        System.out.println("ERROR");
-                                        System.out.println("ERROR");
-                                        System.out.println("Priemro tienes que ingresar las palabras!!");
-
-                                }
-                            }while(palabra==null && menu1!=4);
-                    }
-                        
-                    //Menu palabras ya cargadas   
-                    while(palabra!=null && menu1!=4){
-                            do{
-                                //menu con palabras ya ingresadas
-                                System.out.println("--------------NUEVA PARTIDA--------------");
-                                System.out.println("Palabras Ingresadas");
-                                for(int i =0;i<n;i++){
-                                    System.out.println("+"+palabra[i]);
-                                }
-                                System.out.println("1. Ingresar nuevas palabra");
-                                System.out.println("2. Modificar palabras");
-                                System.out.println("3. Eliminar palabras");
-                                System.out.println("4. regresar");
-                                System.out.println("ingrese un valor numerico****");
-                    
-                                menu1 = scanner.nextInt();
-                       
-                       
-                                switch(menu1){
-                               
-                                    case 1:
-                                        //creando una partida
-                                        System.out.println("--------Quieres CARGAR o CREAR una partida--------");
-                                        System.out.println("escribelo en MAYUSCULA***");
-                                        entrada= palabraEntrada.nextLine();
-                                        
-                                        if(entrada.equals("CREAR")){
-                                            System.out.println("que numero de partida quieres borrar?");
-                                            for (int i = 0; i < 4; i++) {
-                                                System.out.println((i+1)+". "+partidas[i]);
-                                            }
-                                            System.out.println("ingrese un valor numerico****");
-                                            contadorDinamico2= scanner.nextInt();
-                                            contadorDinamico2=contadorDinamico2-1;
-                                            System.out.println("Ingresa tu Nombre y tu carné");
-                                            partidas[contadorDinamico2]=palabraEntrada.nextLine();
-                                            puntosPartidas[contadorDinamico2]=0;
-                                            partidasJugadas[contadorDinamico2]=0;
-                                            erroresPartidas[contadorDinamico2]=0;
-                                            
-                                            System.out.println("cuantas palabras desea ingresar??");
-                                            System.out.println("ingrese un valor numerico****");
-                                            n = scanner.nextInt();
-                                            palabra= new String[n];
-                                        }
-                                        else if(entrada.equals("CARGAR")){
-                                            for (int i = 0; i < 4; i++) {
-                                                System.out.println((i+1)+". "+partidas[i]);
-                                            }
-                                            System.out.println("que numero de partida quieres borrar?");
-                                            contadorDinamico2= scanner.nextInt()-1;
-                                            System.out.println("partida cargada");
-                                            System.out.println("hola "+ partidas[contadorDinamico2]);
-                                            
-                                            System.out.println("cuantas palabras desea ingresar??");
-                                            System.out.println("ingrese un valor numerico****");
-                                            n = scanner.nextInt();
-                                            palabra= new String[n];
-                                        }else{
-                                            System.out.println("por favor, escoge una opcion valida");
-                                        }
-                                        if(n!=0){
-                                        //se registraran las palabras usadas para jugar
-                                        for(int i=0; i<n;i++){
-                                            System.out.println("Porfavor ingrese " +n+" palabras de 6 a 15 caracteres");
-                                            System.out.print(i+1+". ");
-                                            palabra[i]= palabraEntrada.nextLine();
-                                            
-                                            //se confirmara si los palabras ingresadas cumplen con los requisitos
-                                            while (palabra[i].length()<6 || palabra[i].length() >15){
-                                                System.out.println("la palabra #"+i+1+" no es valida, ingresa otra ");
-                                                System.out.print(i+1+". ");
-                                                palabra[i] = palabraEntrada.nextLine();
-                                            }
-                                            
-                                        }}
-                                    break;
-                                    //menu para modificar palabras
-                                    case 2:
-                                        
-                                            System.out.println("Que numero de palabra quieres modificar??");
-                                            for(int i =0;i<n;i++){
-                                                System.out.println(i+1+". "+palabra[i]);
-                                            }
-                                            System.out.println("ingrese un valor numerico****");
-                                            System.out.println("ingrese cualquier numero distinto para regresar");
-
-                                            menu1 = scanner.nextInt();
-                                            
-                                            //sistema para cambiar palabras
-                                            if (menu1<=n) {
-                                                System.out.println("ingresa la nueva palabra:");
-                                                palabra[menu1-1]= palabraEntrada.nextLine();
-                                                //verificando si la palabra es valida
-                                                while (palabra[menu1-1].length()<6 || palabra[menu1-1].length() >15){
-                                                    System.out.println("la palabra #"+(menu1)+" no es valida, ingresa otra ");
-                                                    System.out.print(menu1+". ");
-                                                    palabra[menu1-1] = palabraEntrada.nextLine();
-                                            }
-                                            break;
-                                            }   
-                                         
-                                        
-                                    break;    
-    
-                                    //menu para eliminar palabras   
-                                    case 3:
-                                        System.out.println("que parablra deceas eliminar??");
-                                        for(int i =0;i<n;i++){
-                                                System.out.println(i+1+". "+palabra[i]);
-                                            }
-                                            System.out.println("ingrese un valor numerico****");
-                                            System.out.println("ingrese un numero distinto para salir");
-
-                                        menu1 = scanner.nextInt();
-                                        
-                                        //sistema para eliminar palabras
-                                            if (menu1<=n) {
-                                                palabra[menu1-1]="";
-                                                break;
-                                            }
-                                    break;
-
-                                        
-                                    case 4:
-                                        break;
-                                    default:
-                                        System.out.println("ERROR");
-                                        System.out.println("ERROR");
-                                        System.out.println("opccion no valida");
-                                }
-
-                            }while(menu1!=4);
-                    }
-                    break;
+                    break; 
                 //Menu jugar    
                 case 2:
                     do {
+                        ClearOutput();
+                        
                         System.out.println("--------------JUGAR--------------");
-                        System.out.println("1. jugar");
+                        if(listaPalabras[0] == null){
+                            System.out.println("1. Jugar (primero Ingresa Palabras)");
+                        }else{
+                            System.out.println("1. jugar");
+                        }
                         System.out.println("2. Historial de partidas");
                         System.out.println("3. Regresar");
-                        System.out.println("ingrese un valor numerico****");
                         menu1=scanner.nextInt();
                         
                         switch(menu1){
                             
                             //iniciando juego 
                             case 1:
-                                //verificador si hay una palabra vacia
-                                for(int i=0;i<n;i++){
-                                    if(palabra[i]!= ""){
-                                        contadorDinamico++;
-                                    }
+                                //verificamos si hay palabras ingresada
+                                if(listaPalabras[0] == null){
+                                    break;
                                 }
-                                //juego corriendo despues de verificar
-                                if(contadorDinamico==n && n!=0){
-                                    //restablecemos las variablres usadas para jugar
-                                    acierto=0;
-                                    errores=0;
-                                    puntos=25;
-                                    x=0;
-                                    palabraEncontrada = new String[n];
-                                    condicion = new boolean[n];
-                                    for (int i = 0; i < n; i++){
-                                        palabraEncontrada[i]="**********";
-                                        condicion[i]=true;
-                                    }
-                                    
-                                    //sumano el numero de partida
-                                    partida=1;
-                                    
-                                    //variables para determinar la posicion aleatoria de las palabras
-                                    posicionVertical= new int [n];
-                                    posicionHorizontal= new int[n];
-                                    
-                                    //generando una matriz vacia
-                                    for(int i = 0; i<25; i++){
-                                        for(int j=0; j<25; j++){
-                                            tablero[i][j] ='!';
-                                        }
-                                    }
-                                    //ingresando las n palabras adentro de la matriz
-                                    for(int i=0; i<n; i++){
-                                        do{
-                                            //restablecemos nuestras variables de control
-                                            longitud=0;
-                                            contadorDinamico=0;
-
-                                            posicionVertical[i] =(int)(Math.random()*25);
-                                            posicionHorizontal[i] =(int)(Math.random()*25);
-
-
-                                            //condicion para que la palabra sea horizontal
-                                            if(posicionHorizontal[i]%2==0 && (posicionVertical[i] + palabra[i].length())<25){
-                                                //verificando si las celdas estan vacias
-                                                for (int j = 0; j <palabra[i].length(); j++) {
-                                                    if(tablero[posicionHorizontal[i]][posicionVertical[i]+j]=='!'){
-                                                        contadorDinamico++;
-                                                    }
-                                                }
-
-                                                if(contadorDinamico==palabra[i].length()){
-                                                    for(int k=0; k<25; k++){
-                                                        for(int j=0; j<25; j++){
-                                                            if(longitud< palabra[i].length()){
-                                                            tablero[posicionHorizontal[i]][posicionVertical[i]+j]= palabra[i].charAt(longitud);
-                                                            longitud++;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            //condicion para que la palabra sea vertical
-                                            if(posicionHorizontal[i]%2!=0 && (posicionHorizontal[i] + palabra[i].length())<26){
-
-                                                //verificando si las celdas estan vacias
-                                                for (int j = 0; j <palabra[i].length(); j++) {
-                                                    if(tablero[posicionHorizontal[i]+j][posicionVertical[i]]=='!'){
-                                                        contadorDinamico++;
-                                                    }
-                                                }
-                                                if(contadorDinamico==palabra[i].length()){
-                                                    for(int k=0; k<25; k++){
-                                                        for(int j=0; j<25; j++){
-                                                            if(longitud< palabra[i].length()){
-                                                            tablero[posicionHorizontal[i]+j][posicionVertical[i]]=palabra[i].charAt(longitud);
-                                                            longitud++;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }while(longitud!=palabra[i].length());
-                                    }
-                                    //generando el tablero de juego
-                                    for(int i = 0; i<25; i++){
-                                        for(int j=0; j<25; j++){
-                                            if(tablero[i][j]=='!'){
-                                        int letras =(int) (System.nanoTime() % 26);
-                                        tablero[i][j] =(char) ('a'+letras);
-                                            }
-                                        }
-                                    }
+                                
+                                //creamos el tablero de juego
+                                Tablero tab = new Tablero();
+                                
+                                //incertamos las palabras
+                                tab.IncertarPalabras(listaPalabras);
+                                
+                                
+                                
                                     //jugando
                                     //mostrando en pantalla el juego
+                                        ClearOutput();
                                         System.out.println();
                                         System.out.println();
                                         System.out.println();
@@ -514,10 +271,7 @@ public class Proyecto1 {
                                     }while (errores!=4 && acierto!=n);
                                 contadorDinamico=0;
                                 break;
-                                }else{
-                                    System.out.println("porfavor, revisa si estan todas las palabras ingresadas");
-                                    break;
-                                }
+                                
                             case 2:
                                 //mostrando todas las partidas
                                 System.out.println("JUGADOR         PARTIDAS JUGADAS      PUNTOS       ERRORES" );
